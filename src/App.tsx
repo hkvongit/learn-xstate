@@ -3,13 +3,15 @@ import { useMachine } from "@xstate/react";
 import { myMachine } from "./state-machine/myFirstMachine";
 import "./App.css";
 
+const initialTodos = new Set<string>(["Clean trash can", "Go for walking"]);
+
 function App() {
   const [amIinGoodMood, setMyMood] = useState(true);
   const [state, send] = useMachine(myMachine, {
     services: {
       loadTodos: async () => {
         if (amIinGoodMood) {
-          return ["Clean trash can", "Go for walking"];
+          return Array.from(initialTodos);
         }
         throw new Error("Some error");
       },
@@ -28,7 +30,6 @@ function App() {
           onClick={() => {
             send({
               type: "clickGetTodosButton",
-              todos: ["Clean bathroom", "Tide up shelf"],
             });
           }}
         >
@@ -38,7 +39,6 @@ function App() {
           onClick={() => {
             send({
               type: "clickFailureButton",
-              errorMessage: "Something failed",
             });
           }}
         >
@@ -52,6 +52,32 @@ function App() {
       >
         Change my mood to {!amIinGoodMood ? "Pleasant" : "angry"}
       </button>
+
+      <div>
+        {state.matches("todoNotLoading") ? (
+          <button
+            onClick={() =>
+              send({
+                type: "createNewTodo",
+              })
+            }
+          >
+            add new todo
+          </button>
+        ) : null}
+
+        {state.matches("creatingNewTodo.showingFormInput") ? (
+          <input
+            type="text"
+            onChange={(e) => {
+              send({
+                type: "formInputChanged",
+                value: e.target.value,
+              });
+            }}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }
