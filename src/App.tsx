@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import { useMachine } from "@xstate/react";
+import { myMachine } from "./state-machine/myFirstMachine";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [state, send] = useMachine(myMachine);
 
   return (
     <div className="App">
+      <h1>XState learning app</h1>
+
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <h3>Current state = {JSON.stringify(state.value)}</h3>
+        <button
+          onClick={() => {
+            send("CHECK_BUTTON_CLICK");
+          }}
+        >
+          Check button
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <button
+          onClick={() => {
+            send("UN_CHECK_BUTTON_CLICK");
+          }}
+        >
+          UnCheck button
+        </button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
