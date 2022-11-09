@@ -23,6 +23,7 @@ function App() {
 
       <div>
         <h3>Current state = {JSON.stringify(state.value)}</h3>
+        <pre>Current context = {JSON.stringify(state.context)}</pre>
         <button
           onClick={() => {
             send({

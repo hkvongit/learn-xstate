@@ -24,8 +24,8 @@ export interface Typegen0 {
     delays: never;
   };
   eventsCausingActions: {
-    consoleLogFailure: "error.platform.todosMachine.loadingTodo:invocation[0]";
-    consoleLogTodos: "done.invoke.todosMachine.loadingTodo:invocation[0]";
+    assignErrorToContext: "error.platform.todosMachine.loadingTodo:invocation[0]";
+    assignTodosToContex: "done.invoke.todosMachine.loadingTodo:invocation[0]";
   };
   eventsCausingServices: {
     loadTodos: "clickGetTodosButton";

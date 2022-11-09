@@ -1,4 +1,4 @@
-import { createMachine } from "xstate";
+import { createMachine, assign } from "xstate";
 
 export const myMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QBcD2FWwLIEMDGAFgJYB2YAdGhgHKrIAyqOEpUAxHgDZF4DWA4mGQAVdJgBCAV2RoSAbQAMAXUSgADpiLIiqEqpAAPRAFoATABYF5AMwBWBbYCcADgXPbANgCMChQHYAGhAAT0RrU2dyfy9nc2c-UwVTaw9TAF80oKpMXEJSCk4mFhIoUQw2DDJyUgA3VF4KbOx8YirC5lYy1ARa1DwcbV1FJWH9DVgtHT0kQxMvD3JHPy9k2xjTRw9rLy9rINCEawVzcltnO3ME1z9nZy9zDKyxZry2os6xNjAAJ2-Ub-Iak4AwAZv8ALaUZ65VoFd4lLo9Eh1fqDeTKUYzcaTXT6IwIZJWcwbayucwpRxeWzhfZhY6nc62S4Rfy3e4ZTIgEjoOD6Jow-JQmh0RgdEpjTRovFzKLuDweWw3Lw3Dxxdy0hDEhaWYkuCxOUx+WyPED8lqC9rFUpiCUTKUzfEWcjmRwuRWuZwuZXzDXKyKqlaG8J2RKOdKcs2vMC2nHTUD4sy3Gz2Jwezw+Bwaz3kAOmCJ+BSbcKqjlpIA */
@@ -14,6 +14,10 @@ export const myMachine =
             data: string[];
           };
         },
+      },
+      context: {
+        todos: [] as string[],
+        errorMessage: null as string | null,
       },
       id: "todosMachine",
       initial: "todoNotLoading",
@@ -31,13 +35,13 @@ export const myMachine =
             onDone: [
               {
                 target: "todoNotLoading",
-                actions: "consoleLogTodos",
+                actions: "assignTodosToContex",
               },
             ],
             onError: [
               {
                 target: "todoNotLoading",
-                actions: "consoleLogFailure",
+                actions: "assignErrorToContext",
               },
             ],
           },
@@ -46,12 +50,14 @@ export const myMachine =
     },
     {
       actions: {
-        consoleLogFailure: (context, event) => {
-          console.error("Failure of getting checked items = ", event);
-        },
-        consoleLogTodos: (context, event) => {
-          console.log("Success = ", event);
-        },
+        assignTodosToContex: assign((context, event) => {
+          return {
+            todos: event.data,
+          };
+        }),
+        assignErrorToContext: assign((context, event) => {
+          return { errorMessage: (event.data as Error).message };
+        }),
       },
     }
   );
