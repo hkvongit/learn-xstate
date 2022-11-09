@@ -5,6 +5,7 @@ import "./App.css";
 
 function App() {
   const [state, send] = useMachine(myMachine);
+  console.log("🚀 ~ file: App.tsx ~ line 8 ~ App ~ state", state);
 
   return (
     <div className="App">
@@ -14,17 +15,23 @@ function App() {
         <h3>Current state = {JSON.stringify(state.value)}</h3>
         <button
           onClick={() => {
-            send("CHECK_BUTTON_CLICK");
+            send({
+              type: "clickGetTodosButton",
+              todos: ["Clean bathroom", "Tide up shelf"],
+            });
           }}
         >
-          Check button
+          Call todo items
         </button>
         <button
           onClick={() => {
-            send("UN_CHECK_BUTTON_CLICK");
+            send({
+              type: "clickFailureButton",
+              errorMessage: "Something failed",
+            });
           }}
         >
-          UnCheck button
+          Make a failure
         </button>
       </div>
     </div>
