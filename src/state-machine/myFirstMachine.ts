@@ -1,26 +1,45 @@
 import { createMachine } from "xstate";
 
 export const myMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOgBcB7CCgOQrIBkL0JIBiTAG10wGsBxMGQAqVCrABCAVzKV8AbQAMAXUSgADuNxlcFfGpAAPRAGYALAHYSJgJwBGABwBWAGxPFbxZYA0IAJ6ILlYWLmZmHg52JooWkRYAvvG+aFh4hKSU1HSMzKwQHNx8AGLouJxSAE5g0rJ6SqpIIJqw2rr6jcYIALQATFaKPSZOdmEOFjbmNmYuvgEIPTYkik4mDqErDtE2LtuJSSD4VHAGKTgExORi2UwskAbNrXoGnT1eJHY2PWZONh52ig5NrNTGYSK8LNFLBY7E5NmszIlkhgzul7lodE8OoguhYnEtBsNRuNJk5gd0fiQpi4ouFVj8Bi49vEgA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QBcD2FWwLIEMDGAFgJYB2YAdGhgHKrIAyqOEpUAxHgDZF4DWA4mGQAVdJgBCAV2RoSAbQAMAXUSgADpiLIiqEqpAAPRAFoATABYF5AMwBWBbYCcADgXPbANgCMChQHYAGhAAT0RrU2dyfy9nc2c-UwVTaw9TAF80oKpMXEJSCk4mFhIoUQw2DDJyUgA3VF4KbOx8YirC5lYy1ARa1DwcbV1FJWH9DVgtHT0kQxMvD3JHPy9k2xjTRw9rLy9rINCEawVzcltnO3ME1z9nZy9zDKyxZry2os6xNjAAJ2-Ub-Iak4AwAZv8ALaUZ65VoFd4lLo9Eh1fqDeTKUYzcaTXT6IwIZJWcwbayucwpRxeWzhfZhY6nc62S4Rfy3e4ZTIgEjoOD6Jow-JQmh0RgdEpjTRovFzKLuDweWw3Lw3Dxxdy0hDEhaWYkuCxOUx+WyPED8lqC9rFUpiCUTKUzfEWcjmRwuRWuZwuZXzDXKyKqlaG8J2RKOdKcs2vMC2nHTUD4sy3Gz2Jwezw+Bwaz3kAOmCJ+BSbcKqjlpIA */
   createMachine(
     {
-      id: "(machine)",
-      initial: "todoNotLoaded",
-      schema: {
-        events: {} as
-          | { type: "clickGetTodosButton"; todos: string[] }
-          | { type: "clickFailureButton"; errorMessage: string },
-      },
       tsTypes: {} as import("./myFirstMachine.typegen").Typegen0,
+      schema: {
+        // events: {} as
+        //   | { type: "clickGetTodosButton"; todos: string[] }
+        //   | { type: "clickFailureButton"; errorMessage: string },
+        services: {} as {
+          loadTodos: {
+            data: string[];
+          };
+        },
+      },
+      id: "todosMachine",
+      initial: "todoNotLoading",
       states: {
-        todoNotLoaded: {
+        todoNotLoading: {
           on: {
             clickGetTodosButton: {
-              actions: "consoleLogFailure",
+              target: "loadingTodo",
             },
-            clickFailureButton: {
-              actions: "consoleLogTodos",
-            },
+          },
+        },
+        loadingTodo: {
+          invoke: {
+            src: "loadTodos",
+            onDone: [
+              {
+                target: "todoNotLoading",
+                actions: "consoleLogTodos",
+              },
+            ],
+            onError: [
+              {
+                target: "todoNotLoading",
+                actions: "consoleLogFailure",
+              },
+            ],
           },
         },
       },
@@ -28,7 +47,7 @@ export const myMachine =
     {
       actions: {
         consoleLogFailure: (context, event) => {
-          console.log("Failure of getting checked items = ", event);
+          console.error("Failure of getting checked items = ", event);
         },
         consoleLogTodos: (context, event) => {
           console.log("Success = ", event);
