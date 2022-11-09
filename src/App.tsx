@@ -9,7 +9,7 @@ function App() {
     services: {
       loadTodos: async () => {
         if (amIinGoodMood) {
-          return ["Clean trash can", "Go for walking", 1];
+          return ["Clean trash can", "Go for walking"];
         }
         throw new Error("Some error");
       },
