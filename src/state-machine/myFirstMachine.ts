@@ -58,6 +58,7 @@ export const myMachine =
                 onDone: [
                   {
                     target: "#todosMachine.loadingTodo",
+                    actions: "clearFormInputToContext",
                   },
                 ],
                 onError: [
@@ -102,6 +103,11 @@ export const myMachine =
         assignFormInputToContext: assign((context, event) => {
           return {
             newTodoInput: event.value,
+          };
+        }),
+        clearFormInputToContext: assign((context, event) => {
+          return {
+            newTodoInput: "",
           };
         }),
         handleErrorInInputSubmit: assign((context, event) => {

@@ -15,7 +15,10 @@ function App() {
         }
         throw new Error("Some error");
       },
-      saveTodo: async () => {},
+      saveTodo: async (context, event) => {
+        initialTodos.add(context.newTodoInput);
+        return;
+      },
     },
   });
   // console.log("🚀 ~ file: App.tsx ~ line 8 ~ App ~ state", state);

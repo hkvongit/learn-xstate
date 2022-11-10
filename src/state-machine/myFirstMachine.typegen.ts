@@ -37,6 +37,7 @@ export interface Typegen0 {
     assignErrorToContext: "error.platform.todosMachine.loadingTodo:invocation[0]";
     assignFormInputToContext: "formInputChanged";
     assignTodosToContext: "done.invoke.todosMachine.loadingTodo:invocation[0]";
+    clearFormInputToContext: "done.invoke.todosMachine.creatingNewTodo.savingTodo:invocation[0]";
     handleErrorInInputSubmit: "error.platform.todosMachine.creatingNewTodo.savingTodo:invocation[0]";
   };
   eventsCausingServices: {
