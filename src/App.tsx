@@ -15,6 +15,7 @@ function App() {
         }
         throw new Error("Some error");
       },
+      saveTodo: async () => {},
     },
   });
   // console.log("🚀 ~ file: App.tsx ~ line 8 ~ App ~ state", state);
@@ -67,15 +68,24 @@ function App() {
         ) : null}
 
         {state.matches("creatingNewTodo.showingFormInput") ? (
-          <input
-            type="text"
-            onChange={(e) => {
+          <form
+            onSubmit={() => {
               send({
-                type: "formInputChanged",
-                value: e.target.value,
+                type: "submit",
               });
             }}
-          />
+          >
+            <input
+              type="text"
+              onChange={(e) => {
+                send({
+                  type: "formInputChanged",
+                  value: e.target.value,
+                });
+              }}
+            />
+            <button>Submit</button>
+          </form>
         ) : null}
       </div>
     </div>
