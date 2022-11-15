@@ -26,6 +26,13 @@ export interface Typegen0 {
       type: "error.platform.todosMachine.loadingTodo:invocation[0]";
       data: unknown;
     };
+    "error.platform.todosMachine.submitingDelete:invocation[0]": {
+      type: "error.platform.todosMachine.submitingDelete:invocation[0]";
+      data: unknown;
+    };
+    "xstate.after(2000)#todosMachine.deleteTodoFailed": {
+      type: "xstate.after(2000)#todosMachine.deleteTodoFailed";
+    };
     "xstate.init": { type: "xstate.init" };
   };
   invokeSrcNameMap: {
@@ -44,9 +51,15 @@ export interface Typegen0 {
     assignErrorToContext: "error.platform.todosMachine.loadingTodo:invocation[0]";
     assignFormInputToContext: "FORM_INPUT_CHANGED";
     assignTodosToContext: "done.invoke.todosMachine.loadingTodo:invocation[0]";
-    clearDeleteInputForm: "done.invoke.todosMachine.submitingDelete:invocation[0]";
-    clearFormInputToContext: "done.invoke.todosMachine.creatingNewTodo.savingTodo:invocation[0]";
-    handleErrorInInputSubmit: "error.platform.todosMachine.creatingNewTodo.savingTodo:invocation[0]";
+    clearDeleteInputForm:
+      | "done.invoke.todosMachine.submitingDelete:invocation[0]"
+      | "error.platform.todosMachine.submitingDelete:invocation[0]";
+    clearFormInputToContext:
+      | "done.invoke.todosMachine.creatingNewTodo.savingTodo:invocation[0]"
+      | "error.platform.todosMachine.creatingNewTodo.savingTodo:invocation[0]";
+    handleErrorInInputSubmit:
+      | "error.platform.todosMachine.creatingNewTodo.savingTodo:invocation[0]"
+      | "error.platform.todosMachine.submitingDelete:invocation[0]";
   };
   eventsCausingServices: {
     deleteTodo: "CONFIRMING_DELETE";
@@ -62,6 +75,7 @@ export interface Typegen0 {
     | "creatingNewTodo"
     | "creatingNewTodo.savingTodo"
     | "creatingNewTodo.showingFormInput"
+    | "deleteTodoFailed"
     | "loadingTodo"
     | "submitingDelete"
     | "todoNotLoading"

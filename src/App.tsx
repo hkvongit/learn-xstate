@@ -39,8 +39,9 @@ function App() {
         );
         if (isValid && typeof indexOfTodoToDelete === "number") {
           currentTodos.splice(indexOfTodoToDelete - 1, 1);
+          return;
         }
-        return;
+        throw new Error("Delete todo failed");
       },
     },
   });
@@ -56,7 +57,7 @@ function App() {
         <button
           onClick={() => {
             send({
-              type: "clickGetTodosButton",
+              type: "CLICKED_GET_TODOS_BUTTON",
             });
           }}
         >
@@ -65,7 +66,7 @@ function App() {
         <button
           onClick={() => {
             send({
-              type: "clickFailureButton",
+              type: "CLICKED_FAILURE_BUTTON",
             });
           }}
         >
@@ -85,7 +86,7 @@ function App() {
           <button
             onClick={() =>
               send({
-                type: "createNewTodo",
+                type: "CREATE_NEW_TODO",
               })
             }
           >
@@ -97,7 +98,7 @@ function App() {
           <form
             onSubmit={() => {
               send({
-                type: "submit",
+                type: "SUBMITING_NEW_TODO",
               });
             }}
           >
@@ -105,7 +106,7 @@ function App() {
               type="text"
               onChange={(e) => {
                 send({
-                  type: "formInputChanged",
+                  type: "FORM_INPUT_CHANGED",
                   value: e.target.value,
                 });
               }}
@@ -119,7 +120,7 @@ function App() {
         onSubmit={(e) => {
           e.preventDefault();
           send({
-            type: "confirming_delete",
+            type: "CONFIRMING_DELETE",
           });
         }}
       >
@@ -127,7 +128,7 @@ function App() {
           type={"number"}
           onChange={(e) => {
             send({
-              type: "enteringTodoToDelete",
+              type: "ENTERING_TODO_INDEX_TO_DELETE",
               value: Number(e.target.value),
             });
           }}

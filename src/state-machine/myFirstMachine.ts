@@ -13,10 +13,10 @@ export const myMachine =
       tsTypes: {} as import("./myFirstMachine.typegen").Typegen0,
       schema: {
         events: {} as
-          | { type: "CREATE_NEW_TODO" }
-          | { type: "FORM_INPUT_CHANGED"; value: string }
           | { type: "CLICKED_GET_TODOS_BUTTON" }
           | { type: "CLICKED_FAILURE_BUTTON" }
+          | { type: "CREATE_NEW_TODO" }
+          | { type: "FORM_INPUT_CHANGED"; value: string }
           | { type: "SUBMITING_NEW_TODO" }
           | { type: "ENTERING_TODO_INDEX_TO_DELETE"; value: number }
           | { type: "CONFIRMING_DELETE" },
@@ -79,7 +79,10 @@ export const myMachine =
                 onError: [
                   {
                     target: "showingFormInput",
-                    actions: "handleErrorInInputSubmit",
+                    actions: [
+                      "clearFormInputToContext",
+                      "handleErrorInInputSubmit",
+                    ],
                   },
                 ],
               },
@@ -95,6 +98,19 @@ export const myMachine =
                 actions: "clearDeleteInputForm",
               },
             ],
+            onError: [
+              {
+                target: "deleteTodoFailed",
+                actions: ["handleErrorInInputSubmit", "clearDeleteInputForm"],
+              },
+            ],
+          },
+        },
+        deleteTodoFailed: {
+          after: {
+            "2000": {
+              target: "#todosMachine.todoNotLoading",
+            },
           },
         },
         loadingTodo: {
