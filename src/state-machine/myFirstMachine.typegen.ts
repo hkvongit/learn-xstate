@@ -40,21 +40,21 @@ export interface Typegen0 {
     delays: never;
   };
   eventsCausingActions: {
-    assignDeleteInputToContext: "enteringTodoToDelete";
+    assignDeleteInputToContext: "ENTERING_TODO_INDEX_TO_DELETE";
     assignErrorToContext: "error.platform.todosMachine.loadingTodo:invocation[0]";
-    assignFormInputToContext: "formInputChanged";
+    assignFormInputToContext: "FORM_INPUT_CHANGED";
     assignTodosToContext: "done.invoke.todosMachine.loadingTodo:invocation[0]";
     clearDeleteInputForm: "done.invoke.todosMachine.submitingDelete:invocation[0]";
     clearFormInputToContext: "done.invoke.todosMachine.creatingNewTodo.savingTodo:invocation[0]";
     handleErrorInInputSubmit: "error.platform.todosMachine.creatingNewTodo.savingTodo:invocation[0]";
   };
   eventsCausingServices: {
-    deleteTodo: "confirming_delete";
+    deleteTodo: "CONFIRMING_DELETE";
     loadTodos:
-      | "clickGetTodosButton"
+      | "CLICKED_GET_TODOS_BUTTON"
       | "done.invoke.todosMachine.creatingNewTodo.savingTodo:invocation[0]"
       | "done.invoke.todosMachine.submitingDelete:invocation[0]";
-    saveTodo: "submit";
+    saveTodo: "SUBMITING_NEW_TODO";
   };
   eventsCausingGuards: {};
   eventsCausingDelays: {};

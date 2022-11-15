@@ -13,13 +13,13 @@ export const myMachine =
       tsTypes: {} as import("./myFirstMachine.typegen").Typegen0,
       schema: {
         events: {} as
-          | { type: "createNewTodo" }
-          | { type: "formInputChanged"; value: string }
-          | { type: "clickGetTodosButton" }
-          | { type: "clickFailureButton" }
-          | { type: "submit" }
-          | { type: "enteringTodoToDelete"; value: number }
-          | { type: "confirming_delete" },
+          | { type: "CREATE_NEW_TODO" }
+          | { type: "FORM_INPUT_CHANGED"; value: string }
+          | { type: "CLICKED_GET_TODOS_BUTTON" }
+          | { type: "CLICKED_FAILURE_BUTTON" }
+          | { type: "SUBMITING_NEW_TODO" }
+          | { type: "ENTERING_TODO_INDEX_TO_DELETE"; value: number }
+          | { type: "CONFIRMING_DELETE" },
 
         services: {} as {
           loadTodos: {
@@ -36,20 +36,20 @@ export const myMachine =
       id: "todosMachine",
       initial: "todoNotLoading",
       on: {
-        enteringTodoToDelete: {
+        ENTERING_TODO_INDEX_TO_DELETE: {
           actions: "assignDeleteInputToContext",
         },
-        confirming_delete: {
+        CONFIRMING_DELETE: {
           target: "submitingDelete",
         },
       },
       states: {
         todoNotLoading: {
           on: {
-            clickGetTodosButton: {
+            CLICKED_GET_TODOS_BUTTON: {
               target: "loadingTodo",
             },
-            createNewTodo: {
+            CREATE_NEW_TODO: {
               target: "creatingNewTodo",
             },
           },
@@ -59,10 +59,10 @@ export const myMachine =
           states: {
             showingFormInput: {
               on: {
-                submit: {
+                SUBMITING_NEW_TODO: {
                   target: "savingTodo",
                 },
-                formInputChanged: {
+                FORM_INPUT_CHANGED: {
                   actions: "assignFormInputToContext",
                 },
               },
