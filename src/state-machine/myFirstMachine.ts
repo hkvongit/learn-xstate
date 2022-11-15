@@ -1,13 +1,14 @@
 import { createMachine, assign } from "xstate";
 
 export const myMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QBcD2FWwLIEMDGAFgJYB2YAdGhgHKrIAyqOEpUAxHgDZF4DWA4mGQAVdJgBCAV2RoSAbQAMAXUSgADpiLIiqEqpAAPRAFoAbAA5yCgOwBWawE5zAFmdOHd2wBoQAT0QAjAHO5Ka2tgBMtgEWEU6O1gC+iT5UmLiEpBRptAxMLCTseABOYDjIYNRgAO6iGIoqSCAasFo6ek1GCAHW1uQODm4WNgERAQDM5uM+-gjjAQrk5g6mHhER4yvO4+PJqWLY+MRk5CVl2oVVtWLksASo1awAYqjFALYAkiRq0mywkgAjN5aBr6FptXT6LrjdbkTbWcwBKbmdYKCLOGaIbYOciRewKZbjBS2BSmCKmPYgNKHTInM7lVhXOqoW73R6FF7vL4-ZBsABmr0+32kAGECDhCpBQU1wdpIZ1EOsIlYCRsPM5TAoHOM7JiELZnLZ+hFrDqHGN5hEFLsUlSDhljhR6RcoEybrAcAA3VjMtgYE6kT2oXjZe1HLKnUoMy41Zm3L0+sQIQOoPAM3QNaXqTRyjqgLoGgJw0bjZwLWxE8xTPXGMbkOLBVxKnaOG37DA0x2R86M2PuhOFX1gYrFV7kNSccoC96UMO0p1Rl1ujDx72DpMptO5zPKME59pQxCWRzmBQEgZ2a3OU166zW+tuHq2UyeGwU23Uh0Rzj5RMYP26BQKYhrOHZficP7MH+qDJiQQZbu0O6NNmrS5oe3ThHC1rPq4kTWG4GJ+IgDhFjEqwkui4wVgMbZ2mB4YQb+67-sOo7FOOk7INObygekDEUJBBRQMysHwem8jKFmzT7vK+ZYmi5B3mWp42OSJoOHqJHkGRDgUds1HasktokOgcD6J+-G8bkjBQYUe6oQeCrdNYpHLBMkzUeSaJ6mMyrxHeowEi+hkfnOXbOr21wrncDzPIK3LSPZEJ5oYiCLBeVobKWEyks4KJ6oaRbWkEdjjGEL5RJSFnzt20aun20UDsJYhJWhTl5UW5jPk4pYGtEtgrAVgy4rpHimGSBpElRVVhRGEUxlFqCtY5ckIMY14qup1jjbY5irFRepUYseJ3lWZJauSzgzfRNWCdBy2yal3QrIp+FhPhrirM46I1qWr0VqsLk6iacTXXx84PSlXTGEEphWHYJ6uO4ng1iW-2TLp4Sli5ERGYkQA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QBcD2FWwLIEMDGAFgJYB2YAdGhgHKrIAyqOEpUAxHgDZF4DWA4mGQAVdJgBCAV2RoSAbQAMAXUSgADpiLIiqEqpAAPRAFoAbAA5yCgOwBWawE5zAFmdOHd2wBoQAT0QAjAHO5Ka2tgBMtgEWEU6O1gC+iT5UmLiEpBRptAxMLCTseABOYDjIYNRgAO6iGIoqSCAasFo6ek1GCAHW1uQODm4WNgERAQDM5uM+-gjjAQrk5g6mHhER4yvO4+PJqWLY+MRklGK5jMysbLBgnGB4ImKiACK3QmAN+i1tuvpdxhFzIsLNZTAFlkDnOZrApTDMTBE+mNRqY4stbG5bLsUiA0odMicSmVtIUqrUxORYARUNVWAAxVDFAC2AEkSGppNdJAAjJlaT5Nb7aX6dRDjdbkTbWczgybrBQRZzwhDbBzkSL2BTLcYKWywiKmPa4g4ZY4UInlVhkuqoSnU2mFBnMtkc5BsABmjNZ7OkAGECDhCpABepNMKOqAuusIlYtRsPM5TAoHOM7MqMbZ+ojUw4xvMIgpsfsMPizeQLSSoNaKbAcAA3Vg2tgYE6kOuoXjZE1HLLl0qW0k1G2U+uNsQINuoPCW3QNEPNMPtP6IDEBSWjcbOBZYrVTZUAtdxYKuaM7RxF40l029itWoc10eFJtgYrFRnkNSccqe5mnK89wl+0rasMBHBsn3HSdp3DOdlC+RcRUjRBLEcIEtQGOxC2caxpj8RAYXGchFQcHpbFMTwbENHE8WvE4bjuB4xwwF43gqcgIFYpjUGbXQKEnTs-3SACKHo+5KxtFi7jYjipK4icSHbaD2lgxpQ1acNlwQYxIj6aVUS3axiIUZxvDwrSFkIgZIg8GwC3Meykmo7sCQoTh8i4njWwUjsu3-FzyDcy4IIweTFJneRlHnIUl1FboPHIRNDILNx5iCYJlRI8gYlWWxoWcOJTDCC8aOEgL3OC7iXzfYoPy-ZAfyZQTS17QKCigG1QqncKVPg9SYqQlUFXIGEtzQwzUUcDK12yhw9UVcYsQGbEcRIdA4H0Er-JyOgLja3qfgjQxAkRYbbFm0xN0mZxjJI5UNhjKJelSrdCqCRziyE-zb0HclQKpGl6S9F1pH2jTYsWDCCw2TcJlhKEImVEy10LN6sTCcioiNTay2+qt7z+x92rEUH+qOlUZSWMinE3DMAjOuEzLcEIzrO0FUQxHUFqx5ycaAu9ftQEnELJ4xsNjREPEK3LVgW5UFsWDVyKCa6LGKnne1ExiKsk952M4iqhcO-4YasDwYlhHZTETBnZmt9VBmCOIt03JNnG5vyy018SnlQV4pLAQ3NOMSY1WTaxzYu8YrcKuXentrddTpun1nMWx3c+stWq4wPYoCFZhusRN7FcRNBkVfdNwLtGzdTRE4nT5qyBzgbtLsYbzH0nojJM-c85jKy4icDELq1ZJkiAA */
   createMachine(
     {
       context: {
         todos: [] as string[],
         errorMessage: null as string | null,
         newTodoInput: "",
+        indexOfTodoToDelete: null as null | number,
       },
       tsTypes: {} as import("./myFirstMachine.typegen").Typegen0,
       schema: {
@@ -16,7 +17,10 @@ export const myMachine =
           | { type: "formInputChanged"; value: string }
           | { type: "clickGetTodosButton" }
           | { type: "clickFailureButton" }
-          | { type: "submit" },
+          | { type: "submit" }
+          | { type: "enteringTodoToDelete"; value: number }
+          | { type: "confirming_delete" },
+
         services: {} as {
           loadTodos: {
             data: string[];
@@ -24,10 +28,21 @@ export const myMachine =
           saveTodo: {
             data: void;
           };
+          deleteTodo: {
+            data: void;
+          };
         },
       },
       id: "todosMachine",
       initial: "todoNotLoading",
+      on: {
+        enteringTodoToDelete: {
+          actions: "assignDeleteInputToContext",
+        },
+        confirming_delete: {
+          target: "submitingDelete",
+        },
+      },
       states: {
         todoNotLoading: {
           on: {
@@ -69,6 +84,17 @@ export const myMachine =
                 ],
               },
             },
+          },
+        },
+        submitingDelete: {
+          invoke: {
+            src: "deleteTodo",
+            onDone: [
+              {
+                target: "#todosMachine.loadingTodo",
+                actions: "clearDeleteInputForm",
+              },
+            ],
           },
         },
         loadingTodo: {
@@ -113,6 +139,12 @@ export const myMachine =
         handleErrorInInputSubmit: assign((context, event) => {
           console.error("Error occured in saving new todo", event);
           return { errorMessage: (event.data as Error).message };
+        }),
+        assignDeleteInputToContext: assign((context, event) => {
+          return { indexOfTodoToDelete: event.value };
+        }),
+        clearDeleteInputForm: assign((context, event) => {
+          return { indexOfTodoToDelete: null };
         }),
       },
     }

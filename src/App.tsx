@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useMachine } from "@xstate/react";
 import { myMachine } from "./state-machine/myFirstMachine";
 import "./App.css";
+import { Checkbox } from "@chakra-ui/react";
 
-const initialTodos = new Set<string>(["Clean trash can", "Go for walking"]);
+const initialTodosSet = new Set<string>(["Clean trash can", "Go for walking"]);
+const initialTodos: string[] = Array.from(initialTodosSet);
 
 function App() {
   const [amIinGoodMood, setMyMood] = useState(true);
@@ -11,12 +13,33 @@ function App() {
     services: {
       loadTodos: async () => {
         if (amIinGoodMood) {
-          return Array.from(initialTodos);
+          return initialTodos;
         }
         throw new Error("Some error");
       },
       saveTodo: async (context, event) => {
-        initialTodos.add(context.newTodoInput);
+        initialTodos.push(context.newTodoInput);
+        return;
+      },
+      deleteTodo: async (context, event) => {
+        let currentTodos = initialTodos;
+        const indexOfTodoToDelete = context.indexOfTodoToDelete;
+
+        console.log("index of todo to delete = ", indexOfTodoToDelete);
+
+        const isValid =
+          typeof indexOfTodoToDelete === "number" &&
+          indexOfTodoToDelete > 0 &&
+          indexOfTodoToDelete < currentTodos.length + 1;
+        console.log(
+          "isValid, currentTodos, typeof indexOfTodoToDelete",
+          isValid,
+          currentTodos,
+          indexOfTodoToDelete
+        );
+        if (isValid && typeof indexOfTodoToDelete === "number") {
+          currentTodos.splice(indexOfTodoToDelete - 1, 1);
+        }
         return;
       },
     },
@@ -91,6 +114,27 @@ function App() {
           </form>
         ) : null}
       </div>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          send({
+            type: "confirming_delete",
+          });
+        }}
+      >
+        <input
+          type={"number"}
+          onChange={(e) => {
+            send({
+              type: "enteringTodoToDelete",
+              value: Number(e.target.value),
+            });
+          }}
+          value={state.context.indexOfTodoToDelete || 0}
+        />
+        <button type="submit">Delete todo</button>
+      </form>
     </div>
   );
 }
